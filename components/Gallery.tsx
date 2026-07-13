@@ -11,6 +11,8 @@ export default function Gallery() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
+    const cleanupFns: (() => void)[] = [];
+
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.querySelectorAll('[data-tilt]').forEach((card) => {
         const el = card as HTMLElement;
@@ -28,10 +30,10 @@ export default function Gallery() {
         };
         el.addEventListener('mousemove', onMove);
         el.addEventListener('mouseleave', onLeave);
-        el._tiltCleanup = () => {
+        cleanupFns.push(() => {
           el.removeEventListener('mousemove', onMove);
           el.removeEventListener('mouseleave', onLeave);
-        };
+        });
       });
 
       gsap.from('.gallery-card', {
@@ -47,9 +49,7 @@ export default function Gallery() {
     }
 
     return () => {
-      document.querySelectorAll('[data-tilt]').forEach((el) => {
-        (el as any)._tiltCleanup?.();
-      });
+      cleanupFns.forEach((fn) => fn());
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
