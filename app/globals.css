@@ -1,0 +1,62 @@
+@import url('https://fonts.cdnfonts.com/css/nevera-132852');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --green-deep: #2D5A27;
+  --green-leaf: #5B8C5A;
+  --green-mist: #8FB08E;
+  --near-black: #1A1A1A;
+  --cream: #F5F0E8;
+  --white: #FFFFFF;
+  --charcoal: #2E2E2E;
+  --font-display: 'Nevera', sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --nav-height: 72px;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--near-black);
+  color: var(--cream);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
