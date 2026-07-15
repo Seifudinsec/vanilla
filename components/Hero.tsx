@@ -6,8 +6,8 @@ export default function Hero() {
           <img src="/dome image.jpg" alt="Product image" />
         </div>
         <div className="hero-text-overlay">
-          <h1 className="vanilla-wordmark">ANASTASIA</h1>
-          <p className="brand-subtitle">VINTAGE CLOTHING CO.</p>
+          <h1 className="vanilla-wordmark">vanilla</h1>
+          <p className="brand-subtitle">MORE THAN A CAFÉ.</p>
         </div>
       </div>
     </section>
