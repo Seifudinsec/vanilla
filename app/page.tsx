@@ -1,4 +1,4 @@
 'use client';
 import { useCallback, useState } from 'react';
-import Loader from '@/components/Loader'; import Hero from '@/components/Hero';
-export default function Home() { const [loading, setLoading] = useState(true); const done = useCallback(() => setLoading(false), []); return <>{loading && <Loader onDone={done} />}<main><Hero /></main></>; }
+import Loader from '@/components/Loader'; import Nav from '@/components/Nav'; import Hero from '@/components/Hero'; import Story from '@/components/Story'; import Coffee from '@/components/Coffee'; import Seasonal from '@/components/Seasonal'; import Philosophy from '@/components/Philosophy'; import Gallery from '@/components/Gallery'; import Menu from '@/components/Menu'; import Testimonials from '@/components/Testimonials'; import Reservation from '@/components/Reservation'; import Contact from '@/components/Contact'; import Footer from '@/components/Footer';
+export default function Home() { const [loading, setLoading] = useState(true); const done = useCallback(() => setLoading(false), []); return <>{loading && <Loader onDone={done} />}<Nav /><main><Hero /><Story /><Coffee /><Seasonal /><Philosophy /><Gallery /><Menu /><Testimonials /><Reservation /><Contact /></main><Footer /></>; }
