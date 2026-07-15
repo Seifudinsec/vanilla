@@ -3,8 +3,7 @@ export default function Hero() {
     <section id="top" className="minimal-hero">
       <div className="hero-content">
         <div className="minimal-dome">
-          {/* Replace this temporary source with /images/vanilla-matcha.jpg when supplied. */}
-          <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?q=85&w=1200&auto=format&fit=crop" alt="Iced green coffee drink" />
+          <img src="/dome image.jpg" alt="Product image" />
         </div>
         <div className="hero-text-overlay">
           <h1 className="vanilla-wordmark">ANASTASIA</h1>
