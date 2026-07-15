@@ -3,28 +3,10 @@ import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
 
 export const metadata: Metadata = {
-  title: 'Vanilla — Pure. Simple. Extraordinary.',
-  description: 'Artisan coffee. Hand-selected beans, precisely roasted, expertly poured.',
-  openGraph: {
-    title: 'Vanilla',
-    description: 'Pure. Simple. Extraordinary.',
-    type: 'website',
-  },
+  title: 'Vanilla — Artisan Coffee House',
+  description: 'A slow coffee house for people who taste in patience.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.cdnfonts.com" />
-      </head>
-      <body>
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="en"><body><SmoothScroll>{children}</SmoothScroll></body></html>;
 }
