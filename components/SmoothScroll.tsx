@@ -19,7 +19,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       const section = id ? document.getElementById(id) : null;
       if (!section) return;
       e.preventDefault();
-      const target = section.querySelector('.section-head, .gallery-title, h2') || section;
+      const target = section.querySelector('.reservation-card, .section-head, .gallery-title, h2') || section;
       const navH = document.querySelector('.nav')?.getBoundingClientRect().height || 70;
       const y = target.getBoundingClientRect().top + window.scrollY - (navH + 64);
       lenis.scrollTo(y, { offset: 0, duration: 1.15 });
