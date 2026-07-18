@@ -2,6 +2,7 @@
 
 import { useEffect, type ReactNode } from 'react';
 import Lenis from 'lenis';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       const y = target.getBoundingClientRect().top + window.scrollY - (navH + 40);
       lenis.scrollTo(y, { offset: 0, duration: 1.15 });
       history.pushState(null, '', `#${id}`);
+      setTimeout(() => ScrollTrigger.refresh(), 1300);
     };
     document.addEventListener('click', onClick);
 
