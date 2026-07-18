@@ -6,13 +6,35 @@ export const signatureCoffees = [
   ['05', 'French Press for Two', 'Four-minute steep, served at the table', 'Rwanda', '$9.00'],
 ];
 
-export const menu = {
-  Coffee: [['Pour-Over', 'Rotating single origin', '$6.50'], ['Espresso', 'Double, Colombian blend', '$4.00'], ['Cortado', 'Equal parts espresso and milk', '$4.50'], ['Vanilla Cloud Latte', 'House vanilla, oat milk', '$5.75'], ['French Press', 'Serves two, four-minute steep', '$9.00'], ['Cold Brew', 'Eighteen hour steep', '$5.50']],
-  Tea: [['Jasmine Silver Needle', 'White tea, hand-picked', '$5.00'], ['Cascara Cherry', 'Coffee-cherry tea', '$4.75'], ['Chamomile Honey', 'With local wildflower honey', '$4.50']],
-  Pastries: [['Fig & Brown Butter Bun', 'Seasonal, laminated dough', '$6.00'], ['Almond Croissant', 'Twice-baked, frangipane', '$5.50'], ['Sourdough Toast', 'Cultured butter, sea salt', '$5.00']],
-  Desserts: [['Vanilla Bean Tart', 'Madagascar vanilla custard', '$7.00'], ['Espresso Tiramisu', 'Layered, mascarpone', '$8.00']],
-  Seasonal: [['Geisha Panama Filter', 'Limited lot, 40 bags', '$9.50'], ['Cardamom Cold Brew', 'Whole pod, 18-hr steep', '$6.00']],
-} as const;
+export type MenuItem = { name: string; description: string; price: string; tint: string };
+export const menu: Record<string, MenuItem[]> = {
+  Coffee: [
+    { name: 'Pour-Over', description: 'Rotating single origin', price: '$6.50', tint: '#e9e3d6' },
+    { name: 'Espresso', description: 'Double, Colombian blend', price: '$4.00', tint: '#e3d9cf' },
+    { name: 'Cortado', description: 'Equal parts espresso and milk', price: '$4.50', tint: '#eaded2' },
+    { name: 'Vanilla Cloud Latte', description: 'House vanilla, oat milk', price: '$5.75', tint: '#f0e7d8' },
+    { name: 'French Press', description: 'Serves two, four-minute steep', price: '$9.00', tint: '#e6ddcb' },
+    { name: 'Cold Brew', description: 'Eighteen hour steep', price: '$5.50', tint: '#dfe2d4' },
+  ],
+  Tea: [
+    { name: 'Jasmine Silver Needle', description: 'White tea, hand-picked', price: '$5.00', tint: '#e8ece1' },
+    { name: 'Cascara Cherry', description: 'Coffee-cherry tea', price: '$4.75', tint: '#ecdfdc' },
+    { name: 'Chamomile Honey', description: 'With local wildflower honey', price: '$4.50', tint: '#f1e9cf' },
+  ],
+  Pastries: [
+    { name: 'Fig & Brown Butter Bun', description: 'Seasonal, laminated dough', price: '$6.00', tint: '#ecdcc9' },
+    { name: 'Almond Croissant', description: 'Twice-baked, frangipane', price: '$5.50', tint: '#eedcc6' },
+    { name: 'Sourdough Toast', description: 'Cultured butter, sea salt', price: '$5.00', tint: '#e9e0d0' },
+  ],
+  Desserts: [
+    { name: 'Vanilla Bean Tart', description: 'Madagascar vanilla custard', price: '$7.00', tint: '#f0e6d0' },
+    { name: 'Espresso Tiramisu', description: 'Layered, mascarpone', price: '$8.00', tint: '#e3d6c8' },
+  ],
+  Seasonal: [
+    { name: 'Geisha Panama Filter', description: 'Limited lot, 40 bags', price: '$9.50', tint: '#e6e0d0' },
+    { name: 'Cardamom Cold Brew', description: 'Whole pod, 18-hr steep', price: '$6.00', tint: '#dfe2d4' },
+  ],
+};
 
 export const gallery = [
   ['https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=900&auto=format&fit=crop', 'The sorting table'],
