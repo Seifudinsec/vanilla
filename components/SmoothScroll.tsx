@@ -20,8 +20,8 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       e.preventDefault();
       const target = section.querySelector('.section-head, .gallery-title, h2') || section;
       const navH = document.querySelector('.nav')?.getBoundingClientRect().height || 70;
-      const y = target.getBoundingClientRect().top + window.scrollY - (navH + 24);
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      const y = target.getBoundingClientRect().top + window.scrollY - (navH + 40);
+      lenis.scrollTo(y, { offset: 0, duration: 1.15 });
       history.pushState(null, '', `#${id}`);
     };
     document.addEventListener('click', onClick);
