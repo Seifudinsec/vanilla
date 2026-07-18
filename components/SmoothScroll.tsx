@@ -15,10 +15,13 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       const link = (e.target as HTMLElement)?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
       if (!link) return;
       const id = link.getAttribute('href')!.slice(1);
-      const el = id ? document.getElementById(id) : null;
-      if (!el) return;
+      const section = id ? document.getElementById(id) : null;
+      if (!section) return;
       e.preventDefault();
-      lenis.scrollTo(el, { offset: -90, duration: 1.15 });
+      const target = section.querySelector('.section-head, .gallery-title, h2') || section;
+      const navH = document.querySelector('.nav')?.getBoundingClientRect().height || 70;
+      const y = target.getBoundingClientRect().top + window.scrollY - (navH + 24);
+      window.scrollTo({ top: y, behavior: 'smooth' });
       history.pushState(null, '', `#${id}`);
     };
     document.addEventListener('click', onClick);
