@@ -3,8 +3,8 @@ import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
 
 export const metadata: Metadata = {
-  title: 'Vanilla — Artisan Coffee House',
-  description: 'A slow coffee house for people who taste in patience.',
+  title: 'Vanilla — Matcha & Mojito House',
+  description: 'A slow matcha & mojito house for people who taste in patience.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

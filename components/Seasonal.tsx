@@ -3,10 +3,10 @@ import Reveal from './Reveal';
 type Feature = { tone: string; tag: string; title: string; copy: string; image: string };
 
 const cards: Feature[] = [
-  { tone: 'dark', tag: 'Pastry', title: 'Fig & Brown Butter Bun', copy: 'Laminated dough, roasted fig, brown butter glaze — back for six weeks only.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=900&auto=format&fit=crop' },
-  { tone: 'camel', tag: 'Rare lot', title: 'Geisha, Panama', copy: 'Jasmine and stone fruit. 40 bags roasted. Available while it lasts.', image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=900&auto=format&fit=crop' },
-  { tone: 'light', tag: 'Cold drink', title: 'Cardamom Cold Brew', copy: 'Eighteen-hour steep, whole cardamom pod.', image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=900&auto=format&fit=crop' },
-  { tone: 'sage', tag: 'Saturday ritual', title: 'Saturday Cupping Table', copy: 'Sit with our roaster, taste four origins side by side, ask anything.', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=900&auto=format&fit=crop' },
+  { tone: 'dark', tag: 'Limited edition', title: 'Cherry Blossom Matcha', copy: 'A single-week release. Light, floral, and quietly unforgettable.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=900&auto=format&fit=crop' },
+  { tone: 'camel', tag: 'Rare lot', title: 'First Flush Uji', copy: 'The first harvest of the year. Delicate, sweet, and available only once.', image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=900&auto=format&fit=crop' },
+  { tone: 'light', tag: 'Summer special', title: 'Mojito de Fruta', copy: 'Rotating tropical fruit, muddled to order with white rum.', image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=900&auto=format&fit=crop' },
+  { tone: 'sage', tag: 'Saturday ritual', title: 'Saturday Whisking Table', copy: 'Learn to whisk ceremonial matcha with our head tea buyer. Takes forty minutes.', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=900&auto=format&fit=crop' },
 ];
 
 export default function Seasonal() {

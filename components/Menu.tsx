@@ -7,7 +7,7 @@ const categories = Object.keys(menu);
 const initials = (name: string) => name.replace(/[^a-zA-Z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 
 export default function Menu() {
-  const [active, setActive] = useState<string>('Coffee');
+  const [active, setActive] = useState<string>('Matcha');
   return (
     <section id="menu" className="section">
       <div className="container">

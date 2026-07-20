@@ -7,7 +7,7 @@ export default function Hero({ loaderDone }: { loaderDone?: boolean }) {
         </div>
         <div className={`hero-text-overlay ${loaderDone ? 'animate' : ''}`}>
           <h1 className="vanilla-wordmark">vanilla</h1>
-          <p className="brand-subtitle">MORE THAN A CAFE</p>
+          <p className="brand-subtitle">MATCHA & MOJITOS</p>
         </div>
       </div>
     </section>
