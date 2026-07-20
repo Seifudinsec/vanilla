@@ -28,7 +28,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       aria-hidden="true"
     >
       <div className="loader-image-wrapper animate-pulse">
-        <Image src="/vn.png" alt="Vanilla Logo" width={100} height={100} />
+        <Image src="/vn.png" alt="Vanilla Logo" width={200} height={115} />
       </div>
     </div>
   );
