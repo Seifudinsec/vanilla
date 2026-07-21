@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useId } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 
@@ -32,12 +32,13 @@ export default function GiftCardPage() {
   // Submission State
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   // Helper: Active Gift Card Value
   const getActiveAmount = (): number => {
     if (amountMode === 'custom') {
       const parsed = parseFloat(customAmount);
-      return isNaN(parsed) ? 0 : parsed;
+      if (!isNaN(parsed) && parsed > 0) return parsed;
     }
     return presetAmount;
   };
@@ -55,9 +56,42 @@ export default function GiftCardPage() {
     setActiveMobileStep(activeMobileStep === stepNum ? 0 : stepNum);
   };
 
+  // Validation
+  const validateForm = (): string => {
+    const amount = getActiveAmount();
+    if (amount < 500 || amount > 50000) {
+      return 'Please select or enter a valid amount (KES 500 – 50,000).';
+    }
+    if (!recipientName.trim()) {
+      return "Please enter the recipient's name.";
+    }
+    if (!recipientEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail)) {
+      return 'Please enter a valid recipient email address.';
+    }
+    if (!recipientPhone.trim() || recipientPhone.replace(/\D/g, '').length < 9) {
+      return 'Please enter a valid WhatsApp number.';
+    }
+    if (!yourName.trim()) {
+      return 'Please enter your name.';
+    }
+    if (!yourEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(yourEmail)) {
+      return 'Please enter a valid email address.';
+    }
+    if (deliveryDateMode === 'later' && !deliveryDate) {
+      return 'Please choose a delivery date.';
+    }
+    return '';
+  };
+
   // Form Submit Handler
   const handleProceed = (e: FormEvent) => {
     e.preventDefault();
+    setError('');
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
@@ -128,31 +162,38 @@ export default function GiftCardPage() {
     )
   };
 
+  const today = new Date().toISOString().split('T')[0];
+
   return (
     <>
       <Nav />
 
       {/* SUCCESS SCREEN OVERLAY */}
       {success && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in" style={{ position: 'fixed', inset: 0 }}>
-          <div className="bg-white rounded-2xl p-8 max-width-500 w-[90%] mx-auto text-center shadow-2xl animate-scale-up" style={{ background: '#ffffff', maxWidth: '480px', width: '90%', borderRadius: '24px', padding: '40px' }}>
-            <div className="w-16 h-16 bg-[#f4f6f1] text-[#4b5945] rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
-              ✓
+        <div className="success-overlay" role="dialog" aria-modal="true" aria-labelledby="success-title">
+          <div className="success-card">
+            <div className="success-icon-wrap">
+              <span aria-hidden="true">✓</span>
             </div>
-            <h3 style={{ font: '500 28px var(--serif)', marginBottom: '12px' }}>Request Received</h3>
-            <p style={{ color: 'var(--soft)', fontSize: '15px', lineHeight: '1.6', marginBottom: '30px' }}>
+            <h3 id="success-title" className="success-title">Request Received</h3>
+            <p className="success-body">
               We have processed your gift card request of <strong>{formatCurrency(getActiveAmount())}</strong>. A checkout link is being prepared and will be sent to both <strong>{recipientEmail || 'the recipient'}</strong> and WhatsApp number instantly.
             </p>
             <button
               onClick={() => {
                 setSuccess(false);
-                // Clear fields
+                setError('');
+                setAmountMode('preset');
+                setPresetAmount(2000);
+                setCustomAmount('');
                 setPersonalMessage('');
                 setRecipientName('');
                 setRecipientEmail('');
                 setRecipientPhone('');
                 setYourName('');
                 setYourEmail('');
+                setDeliveryDateMode('now');
+                setDeliveryDate('');
               }}
               className="payment-btn"
             >
@@ -204,8 +245,11 @@ export default function GiftCardPage() {
       <section className="giftcard-checkout-section">
         <div className="container">
           <div className="checkout-card-container">
-            <form onSubmit={handleProceed} className="checkout-grid">
-              
+            <form onSubmit={handleProceed} className="checkout-grid" noValidate>
+              {error && (
+                <div className="form-error" role="alert">{error}</div>
+              )}
+
               {/* LEFT COLUMN: FORM DETAILS (DESKTOP) / ACCORDIONS (MOBILE) */}
               <div className="checkout-form-container">
                 
@@ -222,7 +266,7 @@ export default function GiftCardPage() {
                       
                       <div className="form-group">
                         <label className="form-label">Select Amount</label>
-                        <div className="amount-selector-grid">
+                        <div className="amount-selector-grid" role="radiogroup" aria-label="Select gift card amount">
                           {presets.map((val) => (
                             <button
                               key={val}
@@ -232,6 +276,7 @@ export default function GiftCardPage() {
                                 setPresetAmount(val);
                               }}
                               className={`amount-btn ${amountMode === 'preset' && presetAmount === val ? 'active' : ''}`}
+                              aria-pressed={amountMode === 'preset' && presetAmount === val}
                             >
                               KES {val.toLocaleString()}
                             </button>
@@ -240,6 +285,7 @@ export default function GiftCardPage() {
                             type="button"
                             onClick={() => setAmountMode('custom')}
                             className={`amount-btn ${amountMode === 'custom' ? 'active' : ''}`}
+                            aria-pressed={amountMode === 'custom'}
                           >
                             Other Amount
                           </button>
@@ -247,9 +293,9 @@ export default function GiftCardPage() {
 
                         {amountMode === 'custom' && (
                           <div className="custom-amount-wrapper">
-                            <label className="form-label">Custom Amount (KES)</label>
+                            <label className="form-label" htmlFor="custom-amount-desktop">Custom Amount (KES)</label>
                             <input
-                              required
+                              id="custom-amount-desktop"
                               type="number"
                               min="500"
                               max="50000"
@@ -263,9 +309,10 @@ export default function GiftCardPage() {
                       </div>
 
                       <div className="form-group">
-                        <label className="form-label">Add a Personal Message</label>
+                        <label className="form-label" htmlFor="personal-message-desktop">Add a Personal Message (optional)</label>
                         <div className="textarea-wrapper">
                           <textarea
+                            id="personal-message-desktop"
                             maxLength={120}
                             placeholder="Write a heartfelt message... (we'll include this with your gift card)"
                             value={personalMessage}
@@ -285,9 +332,9 @@ export default function GiftCardPage() {
                       </div>
                       
                       <div className="form-group">
-                        <label className="form-label">Recipient Name</label>
+                        <label className="form-label" htmlFor="recipient-name-desktop">Recipient Name</label>
                         <input
-                          required
+                          id="recipient-name-desktop"
                           type="text"
                           placeholder="e.g. Aisha"
                           value={recipientName}
@@ -297,9 +344,9 @@ export default function GiftCardPage() {
                       </div>
 
                       <div className="form-group">
-                        <label className="form-label">Email Address</label>
+                        <label className="form-label" htmlFor="recipient-email-desktop">Email Address</label>
                         <input
-                          required
+                          id="recipient-email-desktop"
                           type="email"
                           placeholder="e.g. aisha@example.com"
                           value={recipientEmail}
@@ -316,7 +363,7 @@ export default function GiftCardPage() {
                             <span>+254</span>
                           </div>
                           <input
-                            required
+                            id="recipient-phone-desktop"
                             type="tel"
                             placeholder="712 345 678"
                             value={recipientPhone}
@@ -337,9 +384,9 @@ export default function GiftCardPage() {
                       
                       <div className="form-row">
                         <div className="form-group">
-                          <label className="form-label">Your Name</label>
+                          <label className="form-label" htmlFor="your-name-desktop">Your Name</label>
                           <input
-                            required
+                            id="your-name-desktop"
                             type="text"
                             placeholder="e.g. Sam"
                             value={yourName}
@@ -348,9 +395,9 @@ export default function GiftCardPage() {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label">Your Email</label>
+                          <label className="form-label" htmlFor="your-email-desktop">Your Email</label>
                           <input
-                            required
+                            id="your-email-desktop"
                             type="email"
                             placeholder="e.g. sam@example.com"
                             value={yourEmail}
@@ -372,6 +419,7 @@ export default function GiftCardPage() {
                         <div className="select-date-wrapper">
                           <span className="select-date-icon"><Icons.Calendar /></span>
                           <select
+                            id="delivery-mode-desktop"
                             value={deliveryDateMode}
                             onChange={(e) => setDeliveryDateMode(e.target.value as 'now' | 'later')}
                             className="form-select"
@@ -385,10 +433,11 @@ export default function GiftCardPage() {
 
                       {deliveryDateMode === 'later' && (
                         <div className="form-group custom-amount-wrapper">
-                          <label className="form-label">Choose Delivery Date</label>
+                          <label className="form-label" htmlFor="delivery-date-desktop">Choose Delivery Date</label>
                           <input
-                            required
+                            id="delivery-date-desktop"
                             type="date"
+                            min={today}
                             value={deliveryDate}
                             onChange={(e) => setDeliveryDate(e.target.value)}
                             className="custom-date-picker"
@@ -410,7 +459,13 @@ export default function GiftCardPage() {
                   
                   {/* Step 1 Accordion */}
                   <div className={`accordion-step ${activeMobileStep === 1 ? 'open' : ''}`}>
-                    <button type="button" onClick={() => toggleStep(1)} className="accordion-header">
+                    <button
+                      type="button"
+                      onClick={() => toggleStep(1)}
+                      className="accordion-header"
+                      aria-expanded={activeMobileStep === 1}
+                      aria-controls="accordion-content-1"
+                    >
                       <div className="accordion-header-title">
                         <span className="accordion-icon-wrapper">1</span>
                         <h4>Gift Card Details</h4>
@@ -418,10 +473,10 @@ export default function GiftCardPage() {
                       <Icons.ChevronDown className="arrow-toggle" />
                     </button>
                     {activeMobileStep === 1 && (
-                      <div className="accordion-content">
+                      <div id="accordion-content-1" className="accordion-content">
                         <div className="form-group" style={{ marginTop: '16px' }}>
                           <label className="form-label">Select Amount</label>
-                          <div className="amount-selector-grid">
+                          <div className="amount-selector-grid" role="radiogroup" aria-label="Select gift card amount">
                             {presets.map((val) => (
                               <button
                                 key={val}
@@ -431,6 +486,7 @@ export default function GiftCardPage() {
                                   setPresetAmount(val);
                                 }}
                                 className={`amount-btn ${amountMode === 'preset' && presetAmount === val ? 'active' : ''}`}
+                                aria-pressed={amountMode === 'preset' && presetAmount === val}
                               >
                                 KES {val.toLocaleString()}
                               </button>
@@ -439,6 +495,7 @@ export default function GiftCardPage() {
                               type="button"
                               onClick={() => setAmountMode('custom')}
                               className={`amount-btn ${amountMode === 'custom' ? 'active' : ''}`}
+                              aria-pressed={amountMode === 'custom'}
                             >
                               Other Amount
                             </button>
@@ -446,9 +503,9 @@ export default function GiftCardPage() {
 
                           {amountMode === 'custom' && (
                             <div className="custom-amount-wrapper">
-                              <label className="form-label">Custom Amount (KES)</label>
+                              <label className="form-label" htmlFor="custom-amount-mobile">Custom Amount (KES)</label>
                               <input
-                                required={activeMobileStep === 1}
+                                id="custom-amount-mobile"
                                 type="number"
                                 min="500"
                                 max="50000"
@@ -462,9 +519,10 @@ export default function GiftCardPage() {
                         </div>
 
                         <div className="form-group">
-                          <label className="form-label">Add a Personal Message (optional)</label>
+                          <label className="form-label" htmlFor="personal-message-mobile">Add a Personal Message (optional)</label>
                           <div className="textarea-wrapper">
                             <textarea
+                              id="personal-message-mobile"
                               maxLength={120}
                               placeholder="Write a heartfelt message... (we'll include this with your gift card)"
                               value={personalMessage}
@@ -480,7 +538,13 @@ export default function GiftCardPage() {
 
                   {/* Step 2 Accordion */}
                   <div className={`accordion-step ${activeMobileStep === 2 ? 'open' : ''}`}>
-                    <button type="button" onClick={() => toggleStep(2)} className="accordion-header">
+                    <button
+                      type="button"
+                      onClick={() => toggleStep(2)}
+                      className="accordion-header"
+                      aria-expanded={activeMobileStep === 2}
+                      aria-controls="accordion-content-2"
+                    >
                       <div className="accordion-header-title">
                         <span className="accordion-icon-wrapper">2</span>
                         <h4>Recipient Details</h4>
@@ -488,11 +552,11 @@ export default function GiftCardPage() {
                       <Icons.ChevronDown className="arrow-toggle" />
                     </button>
                     {activeMobileStep === 2 && (
-                      <div className="accordion-content">
+                      <div id="accordion-content-2" className="accordion-content">
                         <div className="form-group" style={{ marginTop: '16px' }}>
-                          <label className="form-label">Recipient Name</label>
+                          <label className="form-label" htmlFor="recipient-name-mobile">Recipient Name</label>
                           <input
-                            required={activeMobileStep === 2}
+                            id="recipient-name-mobile"
                             type="text"
                             placeholder="e.g. Aisha"
                             value={recipientName}
@@ -502,9 +566,9 @@ export default function GiftCardPage() {
                         </div>
 
                         <div className="form-group">
-                          <label className="form-label">Email Address</label>
+                          <label className="form-label" htmlFor="recipient-email-mobile">Email Address</label>
                           <input
-                            required={activeMobileStep === 2}
+                            id="recipient-email-mobile"
                             type="email"
                             placeholder="e.g. aisha@example.com"
                             value={recipientEmail}
@@ -521,7 +585,7 @@ export default function GiftCardPage() {
                               <span>+254</span>
                             </div>
                             <input
-                              required={activeMobileStep === 2}
+                              id="recipient-phone-mobile"
                               type="tel"
                               placeholder="712 345 678"
                               value={recipientPhone}
@@ -537,7 +601,13 @@ export default function GiftCardPage() {
 
                   {/* Step 3 Accordion */}
                   <div className={`accordion-step ${activeMobileStep === 3 ? 'open' : ''}`}>
-                    <button type="button" onClick={() => toggleStep(3)} className="accordion-header">
+                    <button
+                      type="button"
+                      onClick={() => toggleStep(3)}
+                      className="accordion-header"
+                      aria-expanded={activeMobileStep === 3}
+                      aria-controls="accordion-content-3"
+                    >
                       <div className="accordion-header-title">
                         <span className="accordion-icon-wrapper">3</span>
                         <h4>Your Details</h4>
@@ -545,11 +615,11 @@ export default function GiftCardPage() {
                       <Icons.ChevronDown className="arrow-toggle" />
                     </button>
                     {activeMobileStep === 3 && (
-                      <div className="accordion-content">
+                      <div id="accordion-content-3" className="accordion-content">
                         <div className="form-group" style={{ marginTop: '16px' }}>
-                          <label className="form-label">Your Name</label>
+                          <label className="form-label" htmlFor="your-name-mobile">Your Name</label>
                           <input
-                            required={activeMobileStep === 3}
+                            id="your-name-mobile"
                             type="text"
                             placeholder="e.g. Sam"
                             value={yourName}
@@ -558,9 +628,9 @@ export default function GiftCardPage() {
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label">Your Email</label>
+                          <label className="form-label" htmlFor="your-email-mobile">Your Email</label>
                           <input
-                            required={activeMobileStep === 3}
+                            id="your-email-mobile"
                             type="email"
                             placeholder="e.g. sam@example.com"
                             value={yourEmail}
@@ -574,7 +644,13 @@ export default function GiftCardPage() {
 
                   {/* Step 4 Accordion */}
                   <div className={`accordion-step ${activeMobileStep === 4 ? 'open' : ''}`}>
-                    <button type="button" onClick={() => toggleStep(4)} className="accordion-header">
+                    <button
+                      type="button"
+                      onClick={() => toggleStep(4)}
+                      className="accordion-header"
+                      aria-expanded={activeMobileStep === 4}
+                      aria-controls="accordion-content-4"
+                    >
                       <div className="accordion-header-title">
                         <span className="accordion-icon-wrapper">4</span>
                         <h4>Delivery Date</h4>
@@ -582,11 +658,12 @@ export default function GiftCardPage() {
                       <Icons.ChevronDown className="arrow-toggle" />
                     </button>
                     {activeMobileStep === 4 && (
-                      <div className="accordion-content">
+                      <div id="accordion-content-4" className="accordion-content">
                         <div className="form-group" style={{ marginTop: '16px' }}>
                           <div className="select-date-wrapper">
                             <span className="select-date-icon"><Icons.Calendar /></span>
                             <select
+                              id="delivery-mode-mobile"
                               value={deliveryDateMode}
                               onChange={(e) => setDeliveryDateMode(e.target.value as 'now' | 'later')}
                               className="form-select"
@@ -600,10 +677,11 @@ export default function GiftCardPage() {
 
                         {deliveryDateMode === 'later' && (
                           <div className="form-group custom-amount-wrapper">
-                            <label className="form-label">Choose Delivery Date</label>
+                            <label className="form-label" htmlFor="delivery-date-mobile">Choose Delivery Date</label>
                             <input
-                              required={activeMobileStep === 4}
+                              id="delivery-date-mobile"
                               type="date"
+                              min={today}
                               value={deliveryDate}
                               onChange={(e) => setDeliveryDate(e.target.value)}
                               className="custom-date-picker"
