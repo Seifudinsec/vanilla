@@ -28,6 +28,19 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     };
     document.addEventListener('click', onClick);
 
+    if (window.location.hash) {
+      setTimeout(() => {
+        const id = window.location.hash.slice(1);
+        const section = document.getElementById(id);
+        if (section) {
+          const target = section.querySelector('.reservation-card, .section-head, .gallery-title, h2') || section;
+          const navH = document.querySelector('.nav')?.getBoundingClientRect().height || 70;
+          const y = target.getBoundingClientRect().top + window.scrollY - (navH + 64);
+          lenis.scrollTo(y, { offset: 0, duration: 0.8 });
+        }
+      }, 500);
+    }
+
     return () => { document.removeEventListener('click', onClick); cancelAnimationFrame(frame); lenis.destroy(); };
   }, []);
   return children;
