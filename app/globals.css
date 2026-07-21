@@ -22,7 +22,6 @@ footer{padding:110px 0 35px}.footer-top{align-items:center;display:flex;justify-
 /* Gift Card Page Layout */
 .giftcard-hero {
   padding: 130px 0 60px;
-  background: var(--ivory) radial-gradient(ellipse at 20% 10%, #fff8 0 1px, transparent 2px) 0 0/6px 6px;
   min-height: 50vh;
   display: flex;
   align-items: center;
@@ -118,7 +117,6 @@ footer{padding:110px 0 35px}.footer-top{align-items:center;display:flex;justify-
 
 /* Checkout Section */
 .giftcard-checkout-section {
-  background: var(--deep);
   padding: 80px 0 120px;
 }
 .checkout-card-container {
@@ -340,8 +338,8 @@ footer{padding:110px 0 35px}.footer-top{align-items:center;display:flex;justify-
 
 /* Proceed Button */
 .payment-btn {
-  background: var(--tomato);
-  border: 0;
+  background: var(--onyx);
+  border: 1px solid var(--onyx);
   border-radius: 99px;
   color: var(--ivory);
   display: flex;
@@ -355,16 +353,21 @@ footer{padding:110px 0 35px}.footer-top{align-items:center;display:flex;justify-
   width: 100%;
   text-transform: uppercase;
   transition: all 0.3s var(--ease);
-  box-shadow: 0 10px 25px -5px rgba(255, 100, 71, 0.3);
+  box-shadow: 0 10px 25px -5px rgba(17, 17, 17, 0.15);
   cursor: pointer;
 }
 .payment-btn:hover {
-  background: #e04b2e;
+  background: var(--tomato);
+  border-color: var(--tomato);
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px -5px rgba(255, 100, 71, 0.4);
+  box-shadow: 0 15px 30px -5px rgba(255, 100, 71, 0.3);
 }
 .payment-btn svg {
   font-size: 15px;
+}
+
+.mobile-only-payment-btn-wrap {
+  display: none;
 }
 
 /* Preview Section styling */
@@ -694,6 +697,10 @@ footer{padding:110px 0 35px}.footer-top{align-items:center;display:flex;justify-
   }
   .mobile-accordions-container {
     display: block;
+  }
+  .mobile-only-payment-btn-wrap {
+    display: block;
+    margin-top: 32px;
   }
   
   .preview-sidebar {

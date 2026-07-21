@@ -614,13 +614,6 @@ export default function GiftCardPage() {
                     )}
                   </div>
 
-                  {/* Mobile-only Submit button placement directly below accordion list */}
-                  <div style={{ marginTop: '24px', marginBottom: '24px' }}>
-                    <button type="submit" disabled={submitting} className="payment-btn">
-                      <Icons.Lock /> {submitting ? 'Processing...' : 'PROCEED TO PAYMENT'}
-                    </button>
-                  </div>
-
                 </div>
 
               </div>
@@ -690,6 +683,13 @@ export default function GiftCardPage() {
                         <p>A beautiful gift card will be delivered to the recipient's email inbox.</p>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Mobile-only payment button at the bottom of the preview column */}
+                  <div className="mobile-only-payment-btn-wrap">
+                    <button type="submit" disabled={submitting} className="payment-btn">
+                      <Icons.Lock /> {submitting ? 'Processing...' : 'PROCEED TO PAYMENT'}
+                    </button>
                   </div>
 
                 </div>
