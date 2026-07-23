@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
+import TransitionWrapper from '@/components/TransitionWrapper';
 
 export const metadata: Metadata = {
   title: 'Vanilla — Matcha & Mojito House',
@@ -15,7 +16,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <link rel="icon" href="/vn.png" type="image/svg+xml" />
           </head>
           <body>
-            <SmoothScroll>{children}</SmoothScroll>
+            <SmoothScroll>
+              <TransitionWrapper>
+                {children}
+              </TransitionWrapper>
+            </SmoothScroll>
           </body>
         </html>
   );
