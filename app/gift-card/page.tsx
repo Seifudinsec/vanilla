@@ -176,7 +176,6 @@ export default function GiftCardPage() {
             <div className="success-lottie-wrap">
               <DotLottieReact
                 src="https://lottie.host/86190713-3f59-41e8-906e-4315d1879dab/RvvQrwJGSB.lottie"
-                loop
                 autoplay
                 style={{ width: '200px', height: '200px' }}
               />
