@@ -3,6 +3,7 @@
 import { useState, FormEvent, useId } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function GiftCardPage() {
   // Amount States
@@ -172,8 +173,13 @@ export default function GiftCardPage() {
       {success && (
         <div className="success-overlay" role="dialog" aria-modal="true" aria-labelledby="success-title">
           <div className="success-card">
-            <div className="success-icon-wrap">
-              <span aria-hidden="true">✓</span>
+            <div className="success-lottie-wrap">
+              <DotLottieReact
+                src="https://lottie.host/86190713-3f59-41e8-906e-4315d1879dab/RvvQrwJGSB.lottie"
+                loop
+                autoplay
+                style={{ width: '200px', height: '200px' }}
+              />
             </div>
             <h3 id="success-title" className="success-title">Request Received</h3>
             <p className="success-body">
