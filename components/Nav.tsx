@@ -23,13 +23,14 @@ export default function Nav() {
   }, []);
 
   const isGiftCard = pathname === '/gift-card';
-  const prefix = isGiftCard ? '/' : '';
+  const isHome = pathname === '/';
+  const prefix = isGiftCard || !isHome ? '/' : '';
 
   const links = [
-    ['Story', `${prefix}#story`],
-    ['Menu', `${prefix}#menu`],
-    ['Gallery', `${prefix}#gallery`],
-    ['Contact', `${prefix}#contact`],
+    ['Story', '/story'],
+    ['Menu', '/menu'],
+    ['Gallery', '/gallery'],
+    ['Contact', '/contact'],
     ['Gift Card', '/gift-card']
   ];
 
