@@ -4,6 +4,7 @@ import { useState, FormEvent, useId } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { Coffee, Heart, Leaf } from 'lucide-react';
 
 export default function GiftCardPage() {
   // Amount States
@@ -152,7 +153,7 @@ export default function GiftCardPage() {
     ),
     WhatsApp: () => (
       <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.665.989 3.3 1.503 4.94 1.505 5.548 0 10.064-4.512 10.068-10.066.002-2.69-1.043-5.22-2.943-7.12S14.39 3.01 11.702 3.01c-5.552 0-10.069 4.513-10.073 10.067-.001 1.887.494 3.73 1.433 5.372L1.968 22.07l3.8-1.246c1.378.75 2.784 1.33 4.879 1.33zm11.233-7.518c-.301-.15-1.78-.879-2.056-.979-.275-.1-.475-.15-.675.15-.2.3-.775.979-.95 1.179-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.488-.89-.794-1.49-1.775-1.665-2.075-.175-.3-.019-.463.13-.612.135-.135.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.675-1.625-.925-2.225-.244-.588-.492-.51-.675-.52-.172-.007-.368-.009-.565-.009-.196 0-.517.074-.787.374-.27.3-1.03 1.007-1.03 2.457 0 1.45 1.055 2.85 1.2 3.05.145.2 2.073 3.167 5.023 4.442.702.303 1.25.485 1.677.62.704.223 1.345.192 1.85.117.564-.083 1.78-.727 2.03-1.429.25-.701.25-1.3.175-1.429-.075-.13-.275-.2-.575-.35z" />
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.049 0C5.463 0 .16 5.306.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.306 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
       </svg>
     ),
     Mail: () => (
@@ -739,8 +740,12 @@ export default function GiftCardPage() {
                   <div className="visual-note-preview-box">
                     <div className="note-recipient">To: {recipientName || 'Aisha'}</div>
                     <div className="note-body">
-                      {personalMessage ||
-                        "Happy Birthday!\nMay your day be as wonderful as your coffee order. Enjoy! ☕❤️"}
+                      {personalMessage || (
+                        <>
+                          Happy Birthday!<br />
+                          May your day be as wonderful as your coffee order. Enjoy! <Coffee size={14} /> <Heart size={14} />
+                        </>
+                      )}
                     </div>
                     <div className="note-sender">From: {yourName || 'Sam'}</div>
                   </div>
@@ -789,7 +794,7 @@ export default function GiftCardPage() {
           <div className="features-grid">
             <div className="feature-box">
               <div className="feature-icon-wrapper">
-                ☕
+                <Coffee size={26} />
               </div>
               <div className="feature-text">
                 <h4>More than just coffee</h4>
@@ -799,7 +804,7 @@ export default function GiftCardPage() {
 
             <div className="feature-box">
               <div className="feature-icon-wrapper">
-                ♡
+                <Heart size={26} />
               </div>
               <div className="feature-text">
                 <h4>Always a good idea</h4>
@@ -809,7 +814,7 @@ export default function GiftCardPage() {
 
             <div className="feature-box">
               <div className="feature-icon-wrapper">
-                🍃
+                <Leaf size={26} />
               </div>
               <div className="feature-text">
                 <h4>Beautifully delivered</h4>
