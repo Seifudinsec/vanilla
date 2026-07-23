@@ -89,39 +89,42 @@ export default function Nav() {
   }, [open]);
 
   return (
-    <header ref={navRef} className={scrolled ? 'nav scrolled' : 'nav'}>
-      <Link href="/" className="brand" onClick={() => setOpen(false)}>
-        <img src="/logo.png" alt="Vanilla Logo" className="logo-img nav-logo-img" />
-      </Link>
-      <button
-        ref={toggleRef}
-        className="nav-toggle"
-        onClick={() => setOpen(!open)}
-        aria-label={open ? 'Close navigation' : 'Open navigation'}
-        aria-expanded={open}
-      >
-        <div ref={hamburgerRef} className={open ? 'hamburger-lines open' : 'hamburger-lines'}>
-          <span /><span /><span />
-        </div>
-      </button>
-      <nav ref={linksRef} className="nav-links">
-        {links.map(([label, href]) => {
-          const isActive = href === '/gift-card' ? isGiftCard : false;
-          return (
-            <Link
-              onClick={() => setOpen(false)}
-              href={href}
-              key={href}
-              className={isActive ? 'active' : ''}
-            >
-              {label}
-            </Link>
-          );
-        })}
-        <Link onClick={() => setOpen(false)} className="reserve-link" href={`${prefix}#reserve`}>
-          Reserve a table<ArrowIcon className="reserve-arrow" />
+    <>
+      <header ref={navRef} className={scrolled ? 'nav scrolled' : 'nav'}>
+        <Link href="/" className="brand" onClick={() => setOpen(false)}>
+          <img src="/logo.png" alt="Vanilla Logo" className="logo-img nav-logo-img" />
         </Link>
-      </nav>
-    </header>
+        <button
+          ref={toggleRef}
+          className="nav-toggle"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? 'Close navigation' : 'Open navigation'}
+          aria-expanded={open}
+        >
+          <div ref={hamburgerRef} className={open ? 'hamburger-lines open' : 'hamburger-lines'}>
+            <span /><span /><span />
+          </div>
+        </button>
+        <nav ref={linksRef} className="nav-links">
+          {links.map(([label, href]) => {
+            const isActive = href === '/gift-card' ? isGiftCard : false;
+            return (
+              <Link
+                onClick={() => setOpen(false)}
+                href={href}
+                key={href}
+                className={isActive ? 'active' : ''}
+              >
+                {label}
+              </Link>
+            );
+          })}
+          <Link onClick={() => setOpen(false)} className="reserve-link" href={`${prefix}#reserve`}>
+            Reserve a table<ArrowIcon className="reserve-arrow" />
+          </Link>
+        </nav>
+      </header>
+      <div ref={overlayRef} className="nav-overlay" onClick={() => setOpen(false)} />
+    </>
   );
 }
